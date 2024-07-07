@@ -8,4 +8,4 @@ class BaseViewAPI(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request: HttpRequest):
-        return render(request, 'base.html')
+        return render(request, "base.html")
