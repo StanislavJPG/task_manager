@@ -20,7 +20,7 @@ class Task(models.Model):
     title = models.CharField(max_length=90, null=False, blank=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name=_("project"))
     is_done = models.BooleanField(null=False, default=False)
-    deadline_to = models.DateField()
+    deadline_to = models.DateField(null=True, default=None)
     priority = models.IntegerField(choices=Priority.choices, default=Priority.MEDIUM)
 
     def __str__(self):

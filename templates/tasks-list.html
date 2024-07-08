@@ -1,0 +1,64 @@
+{% load static %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<ul id="list-group" class="list-group">
+{% for task in project.task_set.all %}
+    <li id="popupContainer" class="popup-container">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <h2 style="text-align: center; font-size: 20px;">Set the priority to "{{ task.title }}"</h2>
+            <form style="text-align: center; margin: auto;">
+                {% csrf_token %}
+                <button name="priority" class="btn btn-danger"
+                        hx-post="{% url 'task-priority' task.id %}"
+                        hx-target="#list-group"
+                        value="3">Set High priority</button>
+                <button name="priority" class="btn btn-warning"
+                        hx-post="{% url 'task-priority' task.id %}"
+                        hx-target="#list-group"
+                        value="2">Set Medium priority</button>
+                <button name="priority" class="btn btn-success"
+                        hx-post="{% url 'task-priority' task.id %}"
+                        hx-target="#list-group"
+                        value="1">Set Low priority</button>
+            </form>
+        </div>
+    </li>
+    {% include 'deadline-popup.html' with task=task %}
+    <li id="list-group-item-{{ task.id }}" class="list-group-item">
+    <div class="task-container" style="cursor: pointer;">
+            <div class="task-left">
+                <input type="checkbox" id="task-{{ task.id }}" name="task-{{ task.id }}">
+            <a style="cursor: pointer;" onclick="openPopupDeadline()">
+                <span class="task-{{ task.id }}">{{ task.title }}</span>
+            </a>
+            </div>
+            <div class="task-right">
+                <button onclick="openPopup()"
+                        type="submit" style="background: none; border: none; padding: 0;">
+                            <img width="23" height="23" style="color: green;" src="{% static 'sort.png' %}">
+                </button>
+                <span class="divider"></span>
+                <button hx-patch="{% url 'base-page' %}"
+                        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                        hx-target="#title"
+                        hx-trigger="click"
+                        hx-swap="afterend"
+                        type="submit" style="background: none; border: none; padding: 0;">
+                            <img width="23" height="23" style="color: green;" src="{% static 'pencil.png' %}">
+                </button>
+                <span class="divider"></span>
+                <button hx-confirm="Are you sure that you want to delete a task?"
+                        hx-delete="{% url 'task-delete' task.id %}"
+                        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                        hx-swap="delete"
+                        hx-target="#list-group-item-{{ task.id }}"
+                        hx-trigger="click"
+                        type="submit" style="background: none; border: none; padding: 0;">
+                            <img width="23" height="23" style="color: green;" src="{% static 'trash.png' %}">
+                </button>
+            </div>
+    </div>
+</li>
+{% endfor %}
+</ul>
