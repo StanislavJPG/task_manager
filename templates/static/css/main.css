@@ -1,29 +1,98 @@
 .card {
     border-radius: 15px;
-    margin-top: 100px;
     box-shadow: 0px 1px 5px grey;
+    margin-bottom: 50px;
 }
 
 .card-header {
     padding: 15px;
-    background-color: #f7f7f7;
+    background-color: #d2d2d2;
     font-weight: bold;
     font-size: 1.2em;
     border-bottom: 1px solid #e0e0e0;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .input-group {
     margin-bottom: 1rem;
 }
 
+.list-group {
+    list-style-type: none;
+    padding: 0;
+}
+
 .list-group-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+}
+
+.list-group-item:last-child {
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.task-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.task-left {
+    display: flex;
+    align-items: center;
+}
+
+.task-left input[type="checkbox"] {
+    margin-right: 10px;
+    padding: 15px;
+    width: 20px;
+    height: 20px;
+}
+
+.task-right {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.task-container:hover .task-right {
+    opacity: 1;
+}
+
+.list-group-item .divider {
+    height: 100%;
+    margin: 0 7px;
+    opacity: 0.7;
+    border-left: 1px solid white;
+}
+
+.list-group-item:hover {
+    background-color: #f0f0f0;
+}
+
+.manage-btn {
+    margin-left: 10px;
 }
 
 .add-btn {
     text-align: center;
+}
+
+.btn-inst {
+    padding: 15px;
+    width: 250px;
 }
 
 .logged-out {
@@ -31,4 +100,24 @@
     text-align: center;
     margin: auto;
     margin-top: 100px;
+}
+
+.card-header {
+    background-color: #416fae;
+}
+
+.card-header .buttons {
+    display: none;
+    opacity: 0.5;
+}
+
+.card-header:hover .buttons {
+    display: block;
+}
+
+.card-header .buttons span.divider {
+    height: 100%;
+    border-left: 1px solid white;
+    margin: 0 7px;
+    opacity: 0.7;
 }

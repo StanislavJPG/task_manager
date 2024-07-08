@@ -9,6 +9,13 @@
     <link type="text/css" href="{% static 'main.css' %}" rel="stylesheet">
     <link type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <title>Title</title>
+    <script src="https://unpkg.com/htmx.org@1.9.9"></script>
+    <script>
+        document.addEventListener("htmx:configRequest", function(event) {
+            let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            event.detail.headers['X-CSRFToken'] = csrfToken;
+        });
+    </script>
 </head>
 {% endblock %}
 {% block body %}
@@ -16,28 +23,81 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header" style="background-color: #416fae; color: white;">
-                    For Technical
+        {% for project in projects %}
+            {% if user.is_authenticated %}
+            <div id="card-{{ project.id }}" class="card" >
+                <div class="buttons">
+                    <div class="card-header">
+                        <span id="title">{{ project.title }}</span>
+                        <div class="buttons">
+                        <button hx-patch="{% url 'base-page' %}"
+                                hx-confirm="Are you sure?"
+                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                hx-target="#title"
+                                hx-trigger="click"
+                                hx-swap="afterend"
+                                type="submit" style="background: none; border: none; padding: 0;">
+                            <img width="23" height="23" style="color: green;" src="{% static 'pencil.png' %}">
+                        </button>
+                        <span class="divider"></span>
+                        <button hx-confirm="Are you sure?" hx-delete="{% url 'project-delete' project.id %}"
+                                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                hx-swap="delete"
+                                hx-target="#card-{{ project.id }}"
+                                hx-trigger="click"
+                                type="submit" style="background: none; border: none; padding: 0;">
+                            <img width="23" height="23" style="color: green;" src="{% static 'trash.png' %}">
+                        </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-header input-group mb-3">
+                <div class="card-header input-group" style="background-color: #d2d2d2; color: white; margin-bottom: 0px;">
                     <input type="text" class="form-control" placeholder="Start typing here to create a task...">
                     <div class="input-group-append">
                         <button class="btn btn-success" style="background-color: #75ac8d;" type="button">Add Task</button>
                     </div>
                 </div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">Open this mock-up in Adobe Fireworks</li>
-                        <li class="list-group-item">Attentively check the file</li>
-                        <li class="list-group-item">Write HTML & CSS</li>
-                        <li class="list-group-item">Add Javascript to implement adding / editing / removing for todo items and lists taking into account as more use cases as possible</li>
-                    </ul>
-                </div>
+                <ul class="list-group">
+                    {% for task in project.task_set.all %}
+                    <li class="list-group-item">
+                        <div class="task-container">
+                            <div class="task-left">
+                                <input type="checkbox" id="task-{{ task.id }}" name="task-{{ task.id }}">
+                                <label for="task-{{ task.id }}">{{ task.title }}</label>
+                            </div>
+                            <div class="task-right">
+                                <button class="manage-btn">Button 1</button>
+                                <span class="divider"></span>
+                                <button hx-patch="{% url 'base-page' %}"
+                                        hx-confirm="Are you sure?"
+                                        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                        hx-target="#title"
+                                        hx-trigger="click"
+                                        hx-swap="afterend"
+                                        type="submit" style="background: none; border: none; padding: 0;">
+                                            <img width="23" height="23" style="color: green;" src="{% static 'pencil.png' %}">
+                                </button>
+                                <span class="divider"></span>
+                                <button hx-confirm="Are you sure?" hx-delete="{% url 'project-delete' project.id %}"
+                                        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                        hx-swap="delete"
+                                        hx-target="#card-{{ project.id }}"
+                                        hx-trigger="click"
+                                        type="submit" style="background: none; border: none; padding: 0;">
+                                            <img width="23" height="23" style="color: green;" src="{% static 'trash.png' %}">
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+                {% endif %}
             </div>
-            <div class="add-btn mt-4">
-                <button class="btn btn-primary">Add TODO List</button>
-            </div>
+            {% endfor %}
+        </div>
+        <div class="add-btn mt-4 add-btn">
+            <button style="background-color: #416fae" class="btn btn-primary btn-inst">Add TODO List</button>
         </div>
     </div>
 </div>

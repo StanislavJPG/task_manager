@@ -66,9 +66,25 @@ AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-LOGIN_REDIRECT_URL = "/base"
+LOGIN_REDIRECT_URL = "base-page"
 
 ROOT_URLCONF = "task_manager.urls"
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG',
+#         },
+#     },
+# }
 
 TEMPLATES = [
     {
@@ -143,6 +159,8 @@ STATIC_URL = "static/"
 
 STATICFILES_DIRS = [
     BASE_DIR / "templates/static/css",
+    BASE_DIR / "templates/static/img",
+    BASE_DIR / "templates/static/js",
 ]
 
 # Default primary key field type
