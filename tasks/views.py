@@ -4,7 +4,7 @@ from django.db.models import Prefetch
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.request import Request
 from rest_framework.status import HTTP_200_OK
 from rest_framework.viewsets import ViewSet
@@ -22,7 +22,7 @@ User = get_user_model()
 
 
 class ProjectsViewAPI(ViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request: Request):
         # filter projects only by current user
@@ -75,7 +75,7 @@ class ProjectsViewAPI(ViewSet):
 
 
 class TasksViewAPI(ViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     @transaction.atomic()
     def post_task(self, request: Request, project_id: int):
@@ -100,8 +100,8 @@ class TasksViewAPI(ViewSet):
 
     def update_task_status(self, request: Request, task_id: int):
         task = Task.objects.order_by("-priority").get(pk=task_id)
+        checked: bool = request.data["checked"]
 
-        checked = request.data["checked"]
         task = TaskStatusSerializer(data={"is_done": checked}, instance=task)
         task.is_valid(raise_exception=True)
         task.save()

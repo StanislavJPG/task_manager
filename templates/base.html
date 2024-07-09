@@ -21,11 +21,15 @@
         {% for project in projects %}
             {% if user.is_authenticated %}
             <div id="card-{{ project.id }}" class="card" >
-                <div class="buttons">
+                <a hx-get="{% url 'project-edit' project.id %}"
+                    hx-target="#project-title-{{ project.id }}"
+                    hx-trigger="click"
+                    style="text-decoration: none;"
+                    type="submit" class="buttons">
                     <div class="card-header">
                         <div class="title-calendar">
                             <img width="28" height="28" style="margin-right: 10px;" src="{% static 'calendar.png' %}">
-                            <div id="project-title-{{ project.id }}">
+                            <div id="project-title-{{ project.id }}" style="text-decoration: none;">
                                 {{ project.title }}
                             </div>
                         </div>
@@ -47,7 +51,7 @@
                         </button>
                         </div>
                     </div>
-                </div>
+                </a>
                     <form>
                         {% csrf_token %}
                         <div class="card-header input-group" style="background-color: #d2d2d2; color: white; margin-bottom: 0px;">
