@@ -3,22 +3,32 @@ document.addEventListener("htmx:configRequest", function(event) {
     event.detail.headers['X-CSRFToken'] = csrfToken;
 });
 
-function openPopup() {
-    var popup = document.getElementById('popupContainer');
+function openPopup(taskId) {
+    var popup = document.getElementById('popupContainer-' + taskId);
     popup.style.display = 'block';
 }
 
-function closePopup() {
-    var popup = document.getElementById('popupContainer');
+function closePopup(taskId) {
+    var popup = document.getElementById('popupContainer-' + taskId);
     popup.style.display = 'none';
 }
 
-function openPopupDeadline() {
-    var popup = document.getElementById('popupContainer-deadline');
+function openPopupDeadline(taskId) {
+    var popup = document.getElementById('popupContainer-deadline-' + taskId);
     popup.style.display = 'block';
 }
 
-function closePopupDeadline() {
-    var popup = document.getElementById('popupContainer-deadline');
+function closePopupDeadline(taskId) {
+    var popup = document.getElementById('popupContainer-deadline-' + taskId);
+    popup.style.display = 'none';
+}
+
+function openPopupTask() {
+    var popup = document.getElementById('popupContainer-task');
+    popup.style.display = 'block';
+}
+
+function closePopupTask() {
+    var popup = document.getElementById('popupContainer-task');
     popup.style.display = 'none';
 }

@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 class Project(models.Model):
     title = models.CharField(max_length=90, null=False, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.title

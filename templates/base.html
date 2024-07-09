@@ -14,7 +14,7 @@
 </head>
 {% endblock %}
 {% block body %}
-<body>
+<body id="body">
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-8 offset-md-2">
@@ -67,10 +67,9 @@
         <form>
             {% csrf_token %}
             <div class="add-btn mt-4 add-btn">
-                <input type="hidden" name="title" value="random test title">
-                <button style="background-color: #416fae; margin-bottom: 100px;"
-                        class="btn btn-primary btn-inst"
-                        hx-post="{% url 'project-post' %}">Add TODO List</button>
+                {% include 'new-project-popup.html' %}
+                <a onclick="openPopupTask()" style="background-color: #416fae; margin-bottom: 100px;"
+                   class="btn btn-primary btn-inst">Add TODO List</a>
             </div>
         </form>
     </div>

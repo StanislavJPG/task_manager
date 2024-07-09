@@ -1,25 +1,25 @@
 {% load static %}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<ul id="list-group" class="list-group">
 {% for task in project.task_set.all %}
-    <li id="popupContainer" class="popup-container">
+<ul id="list-group-{{ task.id }}" class="list-group">
+<li id="popupContainer-{{ task.id }}" class="popup-container">
         <div class="popup-content">
-            <span class="close-btn" onclick="closePopup()">&times;</span>
+            <span class="close-btn" onclick="closePopup('{{ task.id }}')">&times;</span>
             <h2 style="text-align: center; font-size: 20px;">Set the priority to "{{ task.title }}"</h2>
             <form style="text-align: center; margin: auto;">
                 {% csrf_token %}
                 <button name="priority" class="btn btn-danger"
                         hx-post="{% url 'task-priority' task.id %}"
-                        hx-target="#list-group"
+                        hx-target="#list-group-{{ task.id }}"
                         value="3">Set High priority</button>
                 <button name="priority" class="btn btn-warning"
                         hx-post="{% url 'task-priority' task.id %}"
-                        hx-target="#list-group"
+                        hx-target="#list-group-{{ task.id }}"
                         value="2">Set Medium priority</button>
                 <button name="priority" class="btn btn-success"
                         hx-post="{% url 'task-priority' task.id %}"
-                        hx-target="#list-group"
+                        hx-target="#list-group-{{ task.id }}"
                         value="1">Set Low priority</button>
             </form>
         </div>
@@ -29,21 +29,23 @@
     <div class="task-container" style="cursor: pointer;">
             <div class="task-left">
                 <input type="checkbox" id="task-{{ task.id }}" name="task-{{ task.id }}">
-            <a style="cursor: pointer;" onclick="openPopupDeadline()">
-                <span class="task-{{ task.id }}">{{ task.title }}</span>
-            </a>
+                <div class="task-{{ task.id }}">
+                    <div id="task-title-{{ task.id }}">
+                        <a style="cursor: pointer;" onclick="openPopupDeadline('{{ task.id }}')">
+                        {{ task.title }}
+                        </a>
+                    </div>
+                </div>
             </div>
             <div class="task-right">
-                <button onclick="openPopup()"
+                <button onclick="openPopup('{{ task.id }}')"
                         type="submit" style="background: none; border: none; padding: 0;">
                             <img width="23" height="23" style="color: green;" src="{% static 'sort.png' %}">
                 </button>
                 <span class="divider"></span>
-                <button hx-patch="{% url 'base-page' %}"
-                        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                        hx-target="#title"
+                <button hx-get="{% url 'task-edit' task.id %}"
+                        hx-target="#task-title-{{ task.id }}"
                         hx-trigger="click"
-                        hx-swap="afterend"
                         type="submit" style="background: none; border: none; padding: 0;">
                             <img width="23" height="23" style="color: green;" src="{% static 'pencil.png' %}">
                 </button>

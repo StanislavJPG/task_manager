@@ -24,15 +24,16 @@ class ProjectsViewAPI(ViewSet):
                 Prefetch("task_set", queryset=Task.objects.order_by("-priority")),
             )
             .filter(user__pk=request.user.id)
+            .order_by("-created_at")
             .all()
         )
         return render(request, "base.html", context={"projects": projects})
 
     def post(self, request: Request):
-        title: str = request.POST.get("title")
+        new_project_title: str = request.POST.get("new_project_title")
         requesting_user = User.objects.get(pk=request.user.id)
 
-        Project.objects.create(title=title, user=requesting_user)
+        Project.objects.create(title=new_project_title, user=requesting_user)
         return self.get(request)
 
     def delete(self, request: Request, pk: int):
@@ -41,7 +42,7 @@ class ProjectsViewAPI(ViewSet):
         return HttpResponse(HTTP_200_OK)
 
     @staticmethod
-    def edit_task_title(request: Request, pk: int):
+    def edit_project_title(request: Request, pk: int):
         """
         now I should write the API using default django
         for the manage the right requests by exact url
@@ -58,7 +59,7 @@ class ProjectsViewAPI(ViewSet):
             project.title = new_title
             project.save()
             return HttpResponse(project.title)
-        return render(request, "edit_task_title.html", {"project": project})
+        return render(request, "edit_project_title.html", {"project": project})
 
 
 class TasksViewAPI(ViewSet):
@@ -80,12 +81,29 @@ class TasksViewAPI(ViewSet):
         task.priority = int(priority)
         task.save()
 
-        projects = (
-            Project.objects.prefetch_related("task_set").filter(user__pk=request.user.id).all()
-        )
-        return render(request, "tasks-list.html", context={"projects": projects})
+        return render(request, "tasks-list.html", context={"project": task.project})
 
     def delete(self, request: Request, task_id: int):
         task = Task.objects.get(pk=task_id)
         task.delete()
         return HttpResponse(HTTP_200_OK)
+
+    @staticmethod
+    def edit_task_title(request: Request, task_id: int):
+        """
+        now I should write the API using default django
+        for the manage the right requests by exact url
+
+        only reason why I'm using staticmethod
+        is that if I'd use DRF API classes it may commit n+1 problem:
+        two SELECT queries from PROJECT table:
+        1. For the get request
+        2. For the post request
+        """
+        task = get_object_or_404(Task, id=task_id)
+        if request.method == "POST":
+            new_title = request.POST.get("title")
+            task.title = new_title
+            task.save()
+            return HttpResponse(task.title)
+        return render(request, "edit_task_title.html", {"task": task})

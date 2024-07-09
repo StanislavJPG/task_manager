@@ -9,7 +9,7 @@ projects_urlpatterns = [
         ProjectsViewAPI.as_view({"delete": "delete"}),
         name="project-delete",
     ),
-    path("edit/pk=<int:pk>/", ProjectsViewAPI.edit_task_title, name="project-edit"),
+    path("edit/pk=<int:pk>/", ProjectsViewAPI.edit_project_title, name="project-edit"),
     path("create/", ProjectsViewAPI.as_view({"post": "post"}), name="project-post"),
 ]
 
@@ -28,6 +28,11 @@ tasks_urlpatterns = [
         "task/priority/pk=<int:task_id>",
         TasksViewAPI.as_view({"post": "change_priority"}),
         name="task-priority",
+    ),
+    path(
+        "task/edit/pk=<int:task_id>",
+        TasksViewAPI.edit_task_title,
+        name="task-edit",
     ),
 ]
 
