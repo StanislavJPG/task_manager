@@ -18,8 +18,8 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-        {% for project in projects %}
-            {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
+            {% for project in projects %}
             <div id="card-{{ project.id }}" class="card" >
                 <a hx-get="{% url 'project-edit' project.id %}"
                     hx-target="#project-title-{{ project.id }}"
@@ -69,9 +69,8 @@
                 <div id="tasks-list-{{ project.id }}">
                     {% include 'tasks-list.html' %}
                 </div>
-                {% endif %}
             </div>
-        {% endfor %}
+            {% endfor %}
         </div>
         <form>
             {% csrf_token %}
@@ -83,6 +82,16 @@
                     Add TODO List</a>
             </div>
         </form>
+        {% else %}
+        <h1 style="margin-top: 150px; text-align: center;"
+        >Hi! First of all you need to authorize to manage your tasks! &#128521;</h1>
+        <div class="add-btn mt-4 add-btn">
+            <a href="{% url 'account_signup' %}" style="background-color: #416fae; margin-bottom: 100px;"
+               class="btn btn-primary btn-inst">
+                <img width="28" height="28" style="margin-right: 10px;" src="{% static 'plus-add.png' %}">
+                Add TODO List</a>
+        </div>
+        {% endif %}
     </div>
 </div>
 </body>
