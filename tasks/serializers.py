@@ -43,10 +43,11 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         project_id = self.context["project_id"]
-        return Task.objects.order_by("-priority").create(
+        task = Task.objects.create(
             title=validated_data["title"],
             project=Project.objects.get(pk=project_id),
         )
+        return task
 
     def update(self, instance, validated_data):
         instance.title = validated_data["title"]
@@ -96,7 +97,7 @@ class TaskDeadlineSerializer(serializers.Serializer):
     def validate(self, attrs):
         deadline = attrs["deadline_to"]
         if deadline < now().date():
-            raise ValidationError("Дедлайн не може бути в минулому!")
+            raise ValidationError(f"Deadline cannot be earlier then {now().date()}.")
         return attrs
 
     def update(self, instance, validated_data):

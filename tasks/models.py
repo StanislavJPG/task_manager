@@ -23,6 +23,7 @@ class Task(models.Model):
     is_done = models.BooleanField(null=False, default=False)
     deadline_to = models.DateField(null=True, default=None)
     priority = models.IntegerField(choices=Priority.choices, default=Priority.MEDIUM)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.title

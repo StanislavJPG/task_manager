@@ -80,8 +80,14 @@
     border-left-width: 1px;
 }
 
-.list-group-item:hover {
+.list-group-item[data-item="1"]:hover {
+    background-color: #defce2;
+}
+.list-group-item[data-item="2"]:hover {
     background-color: #fcfed5;
+}
+.list-group-item[data-item="3"]:hover {
+    background-color: #fcd7d7;
 }
 
 .manage-btn {

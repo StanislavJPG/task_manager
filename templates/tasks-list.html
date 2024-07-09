@@ -1,31 +1,40 @@
 {% load static %}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-{% for task in project.task_set.all %}
-<ul id="list-group-{{ task.id }}" class="list-group">
+{% for task in project.task_set.all reversed %}
+<ul id="list-group-{{ project.id }}" class="list-group">
     <li id="popupContainer-{{ task.id }}" class="popup-container">
         <div class="popup-content">
             <span class="close-btn" onclick="closePopup('{{ task.id }}')">&times;</span>
-            <h2 style="text-align: center; font-size: 20px;">Set the priority to task "{{ task.title }}"</h2>
+            <h2 style="text-align: center; font-size: 20px;">Set the priority to task "{{ task }}"</h2>
             <form style="text-align: center; margin: auto;">
                 {% csrf_token %}
                 <button name="priority" class="btn btn-danger"
                         hx-post="{% url 'task-priority' task.id %}"
-                        hx-target="#list-group-{{ task.id }}"
+                        hx-target="#list-group-{{ project.id }}"
                         value="3">Set High priority</button>
                 <button name="priority" class="btn btn-warning"
                         hx-post="{% url 'task-priority' task.id %}"
-                        hx-target="#list-group-{{ task.id }}"
+                        hx-target="#list-group-{{ project.id }}"
                         value="2">Set Medium priority</button>
                 <button name="priority" class="btn btn-success"
                         hx-post="{% url 'task-priority' task.id %}"
-                        hx-target="#list-group-{{ task.id }}"
+                        hx-target="#list-group-{{ project.id }}"
                         value="1">Set Low priority</button>
             </form>
         </div>
     </li>
     {% include 'deadline-popup.html' with task=task %}
-    <li id="list-group-item-{{ task.id }}" class="list-group-item">
+    <li id="list-group-item-{{ task.id }}"
+        class="list-group-item"
+        {% if task.priority == 1 %}
+        data-item="1"
+        {% elif task.priority == 2 %}
+        data-item="2"
+        {% else %}
+        data-item="3"
+        {% endif %}
+    >
     <div class="task-container" style="cursor: pointer;">
             <div class="task-left">
                 <input type="checkbox" id="task-{{ task.id }}" name="task-{{ task.id }}"
