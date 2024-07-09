@@ -1,7 +1,8 @@
 <form hx-post="{% url 'project-edit' project.id %}" hx-target="#project-title-{{ project.id }}">
     {% csrf_token %}
     <div style="display: flex;">
-        <input type="text" class="form-control" name="title" value="{{ project.title }}" />
+        <input type="text" class="form-control" name="title" value="{{ project.title }}"
+               maxlength="70" minlength="3">
         <button class="btn btn-success" style="background-color: #75ac8d;" type="submit">Save</button>
     </div>
 </form>

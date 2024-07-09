@@ -3,7 +3,8 @@
         <span class="close-btn" onclick="closePopupTask()">&times;</span>
         <form>
             <h2 style="text-align: center; font-size: 20px;">Create new project</h2>
-            <input class="form-control" name="new_project_title" placeholder="New Project Title">
+            <input class="form-control" name="new_project_title" placeholder="New Project Title"
+            maxlength="70" minlength="3">
             <button hx-post="{% url 'project-post' %}" hx-target="#body" hx-swap="textContent"
                     class="btn btn-primary" style="background-color: #416fae; margin-top: 10px;" type="submit">Create</button>
         </form>

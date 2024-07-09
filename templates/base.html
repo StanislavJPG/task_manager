@@ -23,8 +23,11 @@
             <div id="card-{{ project.id }}" class="card" >
                 <div class="buttons">
                     <div class="card-header">
-                        <div id="project-title-{{ project.id }}">
-                            {{ project.title }}
+                        <div class="title-calendar">
+                            <img width="28" height="28" style="margin-right: 10px;" src="{% static 'calendar.png' %}">
+                            <div id="project-title-{{ project.id }}">
+                                {{ project.title }}
+                            </div>
                         </div>
                         <div class="buttons">
                         <button hx-get="{% url 'project-edit' project.id %}"
@@ -48,6 +51,7 @@
                     <form>
                         {% csrf_token %}
                         <div class="card-header input-group" style="background-color: #d2d2d2; color: white; margin-bottom: 0px;">
+                            <img width="28" height="28" class="green-plus" src="{% static 'plus.png' %}">
                             <input name="title" type="text" class="form-control"
                                    placeholder="Start typing here to create a task..." minlength="3" maxlength="90">
                             <div class="input-group-append">
@@ -69,7 +73,9 @@
             <div class="add-btn mt-4 add-btn">
                 {% include 'new-project-popup.html' %}
                 <a onclick="openPopupTask()" style="background-color: #416fae; margin-bottom: 100px;"
-                   class="btn btn-primary btn-inst">Add TODO List</a>
+                   class="btn btn-primary btn-inst">
+                    <img width="28" height="28" style="margin-right: 10px;" src="{% static 'plus-add.png' %}">
+                    Add TODO List</a>
             </div>
         </form>
     </div>

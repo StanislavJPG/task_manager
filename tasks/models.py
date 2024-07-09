@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Project(models.Model):
-    title = models.CharField(max_length=90, null=False, blank=True)
+    title = models.CharField(max_length=70, null=False, blank=True)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -18,7 +18,7 @@ class Task(models.Model):
         MEDIUM = 2, _("Medium")
         HIGH = 3, _("High")
 
-    title = models.CharField(max_length=90, null=False, blank=True)
+    title = models.CharField(max_length=70, null=False, blank=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name=_("project"))
     is_done = models.BooleanField(null=False, default=False)
     deadline_to = models.DateField(null=True, default=None)

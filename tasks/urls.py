@@ -34,6 +34,16 @@ tasks_urlpatterns = [
         TasksViewAPI.edit_task_title,
         name="task-edit",
     ),
+    path(
+        "task/status/pk=<int:task_id>",
+        TasksViewAPI.as_view({"post": "update_task_status"}),
+        name="task-status",
+    ),
+    path(
+        "task/deadline/pk=<int:task_id>",
+        TasksViewAPI.as_view({"post": "update_task_deadline"}),
+        name="task-deadline",
+    ),
 ]
 
 urlpatterns = projects_urlpatterns + tasks_urlpatterns
