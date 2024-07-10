@@ -119,6 +119,7 @@
     opacity: 0.5;
 }
 
+
 .card-header:hover .buttons {
     display: block;
 }
