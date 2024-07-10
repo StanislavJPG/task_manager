@@ -1,6 +1,6 @@
 # 1. Task Manager
 
-![capture](templates\static\img\Capture.png "Base page")
+![capture](templates/static/img/Capture.PNG "Base page")
 
 Test task have been created by all the requirements.
 
