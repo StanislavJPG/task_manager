@@ -79,6 +79,38 @@
                     Add TODO List</a>
             </div>
         </form>
+        <nav>
+            <ul class="pagination" style="justify-content: center; margin-bottom: 100px;">
+                {% if projects.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                       href="{% url 'base-page' %}?page={{ projects.previous_page_number }}">Previous</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link">Previous</a>
+                </li>
+                {% endif %}
+
+                {% for page in pages %}
+                    {% if projects.number == page %}
+                    <li class="page-item disabled"><a class="page-link">{{ page }}</a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="{% url 'base-page' %}?page={{ page }}">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if projects.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{% url 'base-page' %}?page={{ projects.next_page_number }}">Next</a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
         {% else %}
         <h1 style="margin-top: 150px; text-align: center;"
         >Hi! First of all you need to authorize to manage your tasks! &#128521;</h1>

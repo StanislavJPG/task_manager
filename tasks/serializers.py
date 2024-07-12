@@ -43,6 +43,11 @@ class TaskSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         project_id = self.context["project_id"]
+        tasks_counter_for_project: int = Task.objects.filter(project=project_id).count()
+
+        if tasks_counter_for_project == 50:
+            raise ValidationError("Project cannot have more than 50 tasks.")
+
         task = Task.objects.create(
             title=validated_data["title"],
             project=Project.objects.get(pk=project_id),

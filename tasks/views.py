@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import Prefetch
 from django.http import HttpResponse
@@ -26,6 +27,7 @@ class ProjectsViewAPI(ViewSet):
 
     def get(self, request: Request):
         # filter projects only by current user
+        page = request.GET.get("page", 1)
         projects = (
             Project.objects.prefetch_related(
                 Prefetch("task_set", queryset=Task.objects.order_by("priority")),
@@ -33,7 +35,10 @@ class ProjectsViewAPI(ViewSet):
             .filter(user__pk=request.user.id)
             .order_by("-created_at")
         )
-        return render(request, "base.html", context={"projects": projects})
+        paginated_projects = Paginator(projects, 10)
+        page_obj = paginated_projects.get_page(page)
+        pages = range(1, page_obj.paginator.num_pages + 1)
+        return render(request, "base.html", context={"projects": page_obj, "pages": pages})
 
     def post(self, request: Request):
         new_project_title: str = request.POST.get("new_project_title")

@@ -8,13 +8,14 @@
         {% else %}
         <p style="color: red; text-align: center; font-size: 20px;">There is no deadline for this task.</p>
         {% endif %}
-        <form style="text-align: center;" hx-post="{% url 'task-deadline' task.id %}"
-              hx-target="#list-group-{{ task.id }}">
+        <form style="text-align: center;">
             {% csrf_token %}
             <h2 style="text-align: center; font-size: 20px;">Set deadline to task "{{ task }}"</h2>
             <label for="deadline">Choose your deadline for this task:</label>
             <input type="date" id="deadline" name="deadline">
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button hx-post="{% url 'task-deadline' task.id %}"
+              hx-target="#list-group-{{ task.project.id }}"
+                    type="submit" class="btn btn-success">Submit</button>
         </form>
     </div>
 </li>
