@@ -1,8 +1,8 @@
-# 1. Task Manager
+# Task Manager
 
 ![capture](templates/static/img/Capture.PNG "Base page")
 
-Test task have been created by all the requirements.
+Task have been created by all the requirements. (almoust)
 
 ## Installing
 
@@ -18,7 +18,7 @@ Test task have been created by all the requirements.
 
 ### 3. Activate venv
    ```bash
-   .env\Scripts\activate
+   env\Scripts\activate
    ```
 ###
 
@@ -49,16 +49,10 @@ Test task have been created by all the requirements.
    pip install -r requirements.txt
    ```
 
-### 6. Create your own .env file to store your secret variables:
-#### Change database in settings.py if you have not postgresql database. And then also change .env
-
+### 6. Create your own .env file in task_manager directory to store your secret variables:
+#### Secret key example: wwf*2#86t64!fgh6yav$aoeuo@u2o@fy&*gg76q!&%6x_wbduad
    ```dotenv
    SECRET_KEY=...
-   DB_NAME=...
-   DB_PASS=...
-   DB_USER=...
-   DB_HOST=...
-   DB_PORT=...
    ```
 
 ### 7. Make migrations:
@@ -75,7 +69,7 @@ Test task have been created by all the requirements.
    python manage.py runserver
    ```
 
-### 2. Open your localhost:
+### 2. Open your project locally:
    
    ```arduino
    http://127.0.0.1:8000
@@ -83,7 +77,7 @@ Test task have been created by all the requirements.
 
 ### And here you go!
 
-# 2. SQL Task
+# SQL
 
 <details><summary>Tasks</summary>
 
