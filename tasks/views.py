@@ -35,7 +35,7 @@ class ProjectsViewAPI(ViewSet):
             .filter(user__pk=request.user.id)
             .order_by("-created_at")
         )
-        paginated_projects = Paginator(projects, 10)
+        paginated_projects = Paginator(projects, 3)  # projects pagination
         page_obj = paginated_projects.get_page(page)
         pages = range(1, page_obj.paginator.num_pages + 1)
         return render(request, "base.html", context={"projects": page_obj, "pages": pages})
@@ -47,7 +47,6 @@ class ProjectsViewAPI(ViewSet):
         )
         project.is_valid(raise_exception=True)
         project.save()
-
         return self.get(request)
 
     def delete(self, request: Request, pk: int):
@@ -67,16 +66,19 @@ class ProjectsViewAPI(ViewSet):
         1. For the get request
         2. For the post request
         """
-        project = get_object_or_404(Project, id=pk)
-        if request.method == "POST":
-            new_title: str = request.POST.get("title")
-            project = ProjectSerializer(
-                data={"title": new_title}, instance=project, context={"request": request}
-            )
-            project.is_valid(raise_exception=True)
-            project.save()
-            return HttpResponse(project.instance.title)
-        return render(request, "edit_project_title.html", {"project": project})
+        pass
+        # FIXME: OOPS, I FORGOT TO UNCOMMENT THIS CODE...
+
+        # project = get_object_or_404(Project, id=pk)
+        # if request.method == "POST":
+        #     new_title: str = request.POST.get("title")
+        #     project = ProjectSerializer(
+        #         data={"title": new_title}, instance=project, context={"request": request}
+        #     )
+        #     project.is_valid(raise_exception=True)
+        #     project.save()
+        #     return HttpResponse(project.instance.title)
+        # return render(request, "edit_project_title.html", {"project": project})
 
 
 class TasksViewAPI(ViewSet):

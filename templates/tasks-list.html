@@ -12,15 +12,18 @@
                 <button name="priority" class="btn btn-danger"
                         hx-post="{% url 'task-priority' task.id %}"
                         hx-target="#list-group-{{ project.id }}"
-                        value="3">Set High priority</button>
+                        value="3">Set High priority
+                </button>
                 <button name="priority" class="btn btn-warning"
                         hx-post="{% url 'task-priority' task.id %}"
                         hx-target="#list-group-{{ project.id }}"
-                        value="2">Set Medium priority</button>
+                        value="2">Set Medium priority
+                </button>
                 <button name="priority" class="btn btn-success"
                         hx-post="{% url 'task-priority' task.id %}"
                         hx-target="#list-group-{{ project.id }}"
-                        value="1">Set Low priority</button>
+                        value="1">Set Low priority
+                </button>
             </form>
         </div>
     </li>
@@ -35,34 +38,34 @@
         data-item="3"
         {% endif %}
     >
-    <div class="task-container" style="cursor: pointer;">
+        <div class="task-container" style="cursor: pointer;">
             <div class="task-left">
                 <input type="checkbox" id="task-{{ task.id }}" name="task-{{ task.id }}"
                        {% if task.is_done is True %}
                        checked
                        {% endif %}
-                onchange="updateTaskStatus('{{ task.id }}', this)">
+                       onchange="updateTaskStatus('{{ task.id }}', this)">
                 <span class="divider-task-left"></span>
                 <div class="task-{{ task.id }}">
                     <div id="task-title-{{ task.id }}">
                         <a style="cursor: pointer;" onclick="openPopupDeadline('{{ task.id }}')">
-                        {{ task.title }}
+                            {{ task.title }}
                         </a>
                     </div>
                 </div>
             </div>
-        <span class="divider-task-right"></span>
-        <div class="task-right">
+            <span class="divider-task-right"></span>
+            <div class="task-right">
                 <button onclick="openPopup('{{ task.id }}')"
                         type="submit" style="background: none; border: none; padding: 0; opacity: 0.7;">
-                            <img width="23" height="23" src="{% static 'sort.png' %}">
+                    <img width="23" height="23" src="{% static 'sort.png' %}">
                 </button>
                 <span class="divider-between-imgs"></span>
                 <button hx-get="{% url 'task-edit' task.id %}"
                         hx-target="#task-title-{{ task.id }}"
                         hx-trigger="click"
                         type="submit" style="background: none; border: none; padding: 0; opacity: 0.7;">
-                            <img width="23" height="23" src="{% static 'pencil.png' %}">
+                    <img width="23" height="23" src="{% static 'pencil.png' %}">
                 </button>
                 <span class="divider-between-imgs"></span>
                 <button hx-confirm="Are you sure that you want to delete a task?"
@@ -72,10 +75,10 @@
                         hx-target="#list-group-item-{{ task.id }}"
                         hx-trigger="click"
                         type="submit" style="background: none; border: none; padding: 0;">
-                            <img width="23" height="23" src="{% static 'trash.png' %}">
+                    <img width="23" height="23" src="{% static 'trash.png' %}">
                 </button>
             </div>
-    </div>
-</li>
-{% endfor %}
+        </div>
+    </li>
+    {% endfor %}
 </ul>

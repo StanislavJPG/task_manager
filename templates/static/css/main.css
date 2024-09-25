@@ -115,7 +115,7 @@
 }
 
 .card-header {
-    background-color: #416fae;
+    background-color: red;
 }
 
 .card-header .buttons {
@@ -163,7 +163,7 @@
 }
 
 .green-plus {
-    margin-right: 20px;
+    margin-right: 2000px;
 }
 
 .popup-container {
